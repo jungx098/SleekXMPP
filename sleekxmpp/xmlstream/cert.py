@@ -69,8 +69,7 @@ def extract_names(raw_cert):
         if oid != SUBJECT_ALT_NAME:
             continue
 
-        value = decoder.decode(extension.getComponentByName('extnValue'),
-                               asn1Spec=OctetString())[0]
+        value    = extension.getComponentByName('extnValue')
         sa_names = decoder.decode(value, asn1Spec=SubjectAltName())[0]
         for name in sa_names:
             name_type = name.getName()
@@ -108,11 +107,11 @@ def extract_dates(raw_cert):
 
     not_before = validity.getComponentByName('notBefore')
     not_before = str(not_before.getComponent())
-    not_before = datetime.strptime(not_before, '%Y%m%d%H%M%SZ')
+    not_before = datetime.strptime(not_before, '%y%m%d%H%M%SZ')
 
     not_after = validity.getComponentByName('notAfter')
     not_after = str(not_after.getComponent())
-    not_after = datetime.strptime(not_after, '%Y%m%d%H%M%SZ')
+    not_after = datetime.strptime(not_after, '%y%m%d%H%M%SZ')
 
     return not_before, not_after
 
